@@ -1,0 +1,39 @@
+{% extends 'users_app/base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to the users app!</h1>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo voluptate recusandae repellat temporibus pariatur esse aperiam vitae minus molestias tenetur!</p>
+        <hr class="lead-4">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero, recusandae?</p>
+        <a href="{% url 'users:register' %}" class="btn btn-primary btn-lg">Register Here</a>
+    </div>
+    <div class="row my-4">
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Manage Users</h4>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quasi fugit cum similique laborum quis?</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Leave Messages</h4>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quasi fugit cum similique laborum quis?</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Edit User Information</h4>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quasi fugit cum similique laborum quis?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

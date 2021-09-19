@@ -1,0 +1,48 @@
+{% extends 'users_app/base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="container p-3">
+        <form action='{% url "users:register" %}' method='POST' class="col-6 offset-3" novalidate>
+            {% csrf_token %}
+            <h2>Register</h2>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control {% if errors.first_name or errors.name_format %}is-invalid{% endif %}" id="first_name" name="first_name" placeholder="First Name">
+                <label for="first_name" class="form-label">First Name</label>
+                <div class="invalid-feedback">Name must be at least two characters and contain no numbers</div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control {% if errors.last_name or errors.name_format %}is-invalid{% endif %}" id="last_name" name="last_name" placeholder="Last Name">
+                <label for="last_name" class="form-label">Last Name</label>
+                <div class="invalid-feedback">Name must be at least two characters and contain no numbers</div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control {% if errors.email or errors.email_unique %}is-invalid{% endif %}" id="email" name="email" placeholder="Email">
+                <label for="email" class="form-label">Email</label>
+                <div class="invalid-feedback">Email must be valid format and unique</div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control {% if errors.password or errors.confirm_pw %}is-invalid{% endif %}" id="password" name="password" placeholder="Password">
+                <label for="password" class="form-label">Password</label>
+                <div class="invalid-feedback">Passwords must be at least eight characters and match</div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control {% if errors.confirm_pw or errors.password %}is-invalid{% endif %}" id="confirm_pw" name="confirm_pw" placeholder="Confirm PW">
+                <label for="confirm_pw" class="form-label">Confirm PW</label>
+                <div class="invalid-feedback">Passwords must be at least eight characters and match</div>
+            </div>
+            <input type="submit" value="Register" class="btn btn-lg btn-primary col-12">
+        </form>
+    </div>
+</div>
+<!-- <script>
+    $("#registration input[name='last_name']").keyup(function() {
+        var last_name = $(this).val();
+        if (last_name.length < 2) {
+            $("#err_lname").addClass("text-danger").removeClass("text-success").html("Last Name should be greater than 2 characters");
+        } else {
+            $("#err_lname").addClass("text-success").removeClass("text-danger").html("");
+        }
+    });
+</script> -->
+{% endblock %}
