@@ -1,0 +1,20 @@
+/* CSS Reset */
+* {
+    margin: 0px;
+    padding: 0px;
+    --red: rgb(255, 0, 0);
+}
+.errorlist {
+    padding: 0;
+}
+.errorlist > li {
+    list-style: none;
+    color: var(--red);
+    margin-left: 0;
+    font-size: .7rem;
+}
+/* .errorlist + .form-floating {
+    outline: 3px solid var(--red);
+    border-radius: 2px;
+    padding: 0;
+} */
