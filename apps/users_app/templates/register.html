@@ -3,14 +3,24 @@
 {% block content %}
 <div class="container">
     <div class="container p-3">
-        <form action='{% url "users:register" %}' method='POST' class="col-6 offset-3" novalidate>
-            {% csrf_token %}
+        <form action='{% url "users:register" %}' method='POST' class="col-6 offset-3">
             <h2>Register</h2>
+            {% csrf_token %}
             {% for field in reg_form %}
-                {{field.errors}}
-                <div class="form-floating mb-3">
-                    {{field}}
-                    {{field.label_tag}}
+                <div class="form-floating mb-3 {% if field.errors %}is-invalid{% endif %}">
+                    {% if field.errors %}
+                        <input type="text" value="{{field|striptags}}" name="{{field.html_name}}" id="{{field.id_for_label}}" class="form-control is-invalid" />
+                        {% load label_filter %}
+                        <label for="{{field.id_for_label}}">{{field.html_name|title|label_format}}</label>
+                        <div class="invalid-feedback">
+                            {% for error in field.errors %}
+                                <p style="display:inline-block">{{error|striptags}}.</p>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{field}}
+                        {{field.label_tag}}
+                    {% endif %}
                 </div>
             {% endfor %}
             <input type="submit" value="Register" class="btn btn-lg btn-primary col-12">

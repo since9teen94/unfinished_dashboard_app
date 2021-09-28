@@ -2,22 +2,18 @@ from django import forms
 from django.forms import widgets
 from .models import User
 from django.core.exceptions import ValidationError
-from .validators import name_len,pw_len,email_format,name_format
+from .validators import first_name_len,first_name_format,last_name_len,last_name_format,email_format,pw_len,confirm_pw_len
+import re
 import bcrypt
 
-class BaseForm(forms.ModelForm):
+class UserFormMixin(forms.ModelForm):
+    first_name = forms.CharField(max_length=255,label='First Name', widget=forms.TextInput(attrs={'class':'form-control mb-3','placeholder':'First Name','id':'first_name'}), validators=[first_name_len, first_name_format])
+    last_name = forms.CharField(max_length=255,label='Last Name', widget=forms.TextInput(attrs={'class':'form-control mb-3','placeholder':'Last Name',}), validators=[last_name_len, last_name_format])
     email = forms.CharField(max_length=255,label='Email', widget=forms.EmailInput(attrs={'class':'form-control mb-3','placeholder':'Email',}), validators=[email_format])
     password = forms.CharField(max_length=255,label='Password', widget=forms.PasswordInput(attrs={'class':'form-control mb-3','placeholder':'Password',}), validators=[pw_len])
-    class Meta:
-        model = User
-        fields = ('email','password')
 
-class RegistrationForm(BaseForm):
-
-    first_name = forms.CharField(max_length=255,label='First Name', widget=forms.TextInput(attrs={'class':'form-control mb-3','placeholder':'First Name',}), validators=[name_len, name_format])
-    last_name = forms.CharField(max_length=255,label='Last Name', widget=forms.TextInput(attrs={'class':'form-control mb-3','placeholder':'Last Name',}), validators=[name_len, name_format])
-    confirm_pw = forms.CharField(max_length=255,label='Confirm PW', widget=forms.PasswordInput(attrs={'class':'form-control mb-3','placeholder':'Confirm PW',}), validators=[pw_len])
-
+class RegistrationForm(UserFormMixin):
+    confirm_pw = forms.CharField(max_length=255,label='Confirm PW', widget=forms.PasswordInput(attrs={'class':'form-control mb-3','placeholder':'Confirm PW',}), validators=[confirm_pw_len])
     class Meta:
         model = User
         fields = ('first_name','last_name','email','password','confirm_pw')
@@ -41,7 +37,14 @@ class RegistrationForm(BaseForm):
             user.save()
         return user
 
-class LoginForm(BaseForm):
+class LoginForm(UserFormMixin):
+
+    first_name = None
+    last_name = None
+
+    class Meta:
+        model = User
+        fields = ('email','password')
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
@@ -50,8 +53,8 @@ class LoginForm(BaseForm):
 
         if not User.objects.filter(email=email):
             self.add_error('email','Invalid Credentials')
-            # return cleaned_data
+            return cleaned_data
         this_user = User.objects.get(email=email)
         if not bcrypt.checkpw(password.encode(), this_user.password.encode()):
-            self.add_error('email','Invalid Credentials')
+            self.add_error('password','Invalid Credentials')
         return cleaned_data

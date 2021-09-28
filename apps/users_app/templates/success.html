@@ -3,12 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="jumbotron">
-        {% if messages %}
-            {% for message in messages %}
-                <p class="lead text-success">{{message}}</p>
-            {% endfor %}
-        {% endif %}
-        <p class="lead">Date: {{date}}</p>
+        <p class="lead mt-3">Date: {{date}}</p>
         <hr class="lead-4">
     </div>
     <div class="row my-4">

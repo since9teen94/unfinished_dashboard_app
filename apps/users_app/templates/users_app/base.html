@@ -19,6 +19,13 @@
                     <li class="nav-item">
                         <a href="{% url 'users:index' %}" class="nav-link">Home</a>
                     </li>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <li class="nav-item">
+                                <a class="text-success nav-link">{{message}}</a>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
                 {% if 'userid' in request.session %}
                 <a href="{% url 'users:logout' %}" class=" nav-item text-end btn btn-warning text-white">Log Out</a>
