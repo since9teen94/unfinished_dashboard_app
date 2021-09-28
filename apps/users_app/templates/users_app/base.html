@@ -20,7 +20,11 @@
                         <a href="{% url 'users:index' %}" class="nav-link">Home</a>
                     </li>
                 </ul>
+                {% if 'userid' in request.session %}
+                <a href="{% url 'users:logout' %}" class=" nav-item text-end btn btn-warning text-white">Log Out</a>
+                {% else %}
                 <a href="{% url 'users:signin' %}" class=" nav-item text-end btn btn-secondary text-white">Sign In</a>
+                {% endif %}
             </div>
         </div>
     </nav>

@@ -1,5 +1,41 @@
 {% extends 'users_app/base.html' %}
-{% block title %}Success{% endblock %}
+{% block title %}Home Page{% endblock %}
 {% block content %}
-<h2>Successful login / reg</h2>
+<div class="container">
+    <div class="jumbotron">
+        {% if messages %}
+            {% for message in messages %}
+                <p class="lead text-success">{{message}}</p>
+            {% endfor %}
+        {% endif %}
+        <p class="lead">Date: {{date}}</p>
+        <hr class="lead-4">
+    </div>
+    <div class="row my-4">
+        {% for post in posts %}
+        {% empty %}
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">User Posts</h4>
+                    <p class="card-text">Looks pretty empty here...</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="msg" name="msg" placeholder="Submit">
+                            <label for="msg" class="form-label">Leave a message</label>
+                            <input type="submit" value="Submit" class="mt-3 btn btn-large btn-primary col-sm-12">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
