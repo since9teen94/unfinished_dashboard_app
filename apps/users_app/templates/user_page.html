@@ -1,0 +1,21 @@
+{% extends 'users_app/base.html' %}
+{% block title %}User Info{% endblock %}
+{% block content %}
+<h1 class="col-6 mx-auto text-center">{{user.first_name}} {{user.last_name}}</h1>
+<p class="col-6 mx-auto text-center">{{user.email}}</p>
+{% if user.posts %}
+    <div class="row" style="position: relative">
+        {% for post in user.posts.all %}
+        <div id="list-example" class="list-group col-6 mx-auto">
+        <a class="list-group-item list-group-item-action" href="#list-item-{{post.id}}">Item {{post.id}}</a>
+        </div>
+        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" tabindex="0">
+        <h4 id="list-item-{{post.id}}">{{post.title}}</h4>
+        <p class="col-6 mx-auto">{{post.message}}</p>
+        </div>
+        {% empty %}
+        <p>No posts by this user.</p>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

@@ -10,7 +10,7 @@ def index(request):
         msg_form = MessageForm()
         posts =Message.objects.all()
         recents = Message.objects.all().order_by('-created_at')[:3]
-        return render(request, 'success.html', {'msg_form':msg_form, 'posts':posts, 'recents':recents})
+        return render(request, 'success.html', {'msg_form':msg_form, 'posts':posts, 'recents':recents, 'user':UserActions.get_user(request)})
     return render(request, 'index.html')
 
 def signin(request):
@@ -41,3 +41,23 @@ def post_message(request):
         UserActions.post_message(request, msg_form)
         return redirect('users:success')
     return render(request, 'index.html', {'msg_form':msg_form})
+
+def delete_message(request):
+    if 'userid' in request.session:
+        msg_id = request.args.get('msg_id')
+        this_msg = Message.objects.get(id=msg_id)
+    return redirect('users:index')
+def edit_message(request):
+    if 'userid' in request.session:
+        pass
+        # msg_id = request.args.get('msg_id')
+        # this_msg = Message.objects.get(id=msg_id)
+    return redirect('users:index')
+def comment_message(request):
+    if 'userid' in request.session:
+        pass
+        # msg_id = request.args.get('msg_id')
+        # this_msg = Message.objects.get(id=msg_id)
+    return redirect('users:index')
+def user_page(request):
+    return render(request, 'user_page.html', {'user':UserActions.get_user(request)})

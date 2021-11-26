@@ -26,6 +26,11 @@
                             </li>
                         {% endfor %}
                     {% endif %}
+                    {% if user %}
+                    <li class="nav-item">
+                        <a href="{% url 'users:user_page' %}" class="nav-link">User Info</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 {% if 'userid' in request.session %}
                 <a href="{% url 'users:logout' %}" class=" nav-item text-end btn btn-warning text-white">Log Out</a>

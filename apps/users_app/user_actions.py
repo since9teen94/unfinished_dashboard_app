@@ -14,9 +14,17 @@ class UserActions:
         request.session['userid'] = user.id
         messages.success(request, "Registered")
     @classmethod
+    def get_user(cls, request):
+        this_user = User.objects.get(id=request.session['userid'])
+        return this_user
+    @classmethod
     def post_message(cls, request, form):
         this_user = User.objects.get(id=request.session['userid'])
         this_msg = form.save(commit=False)
-        this_msg.posted_by = User.objects.get(id=request.session['userid'])
+        this_msg.posted_by = this_user
         this_msg.save()
         messages.success(request, "Message Successful")
+    def delete_message(cls, request, form):
+        pass
+    def edit_message(cls, request, form):
+        pass

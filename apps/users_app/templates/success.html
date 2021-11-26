@@ -15,6 +15,33 @@
                         <p class="card-text">Message: {{post.message}}</p>
                         <p class="card-text">Posted by - {{post.posted_by.first_name}} {{post.posted_by.last_name}}</p>
                         <p>{{post.created_at|date:"DATETIME_FORMAT"}}</p>
+                        {% if user == post.posted_by %}
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <form action="{% url 'users:delete_message' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Delete" class="btn btn-sm btn-danger">
+                                </form>
+                            </div>
+                            <div class="col-sm-4">
+                                <form action="{% url 'users:edit_message' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Edit" class="btn btn-sm btn-info">
+                                </form>
+                            </div>
+                            <div class="col-sm-4">
+                                <form action="{% url 'users:comment_message' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Comment" class="btn btn-sm btn-primary">
+                                </form>
+                            </div>
+                        </div>
+                        {% else %}
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-primary" disabled>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -54,6 +81,17 @@
                         <p class="card-text">Message: {{recent.message}}</p>
                         <p class="card-text">Posted by - {{recent.posted_by.first_name}} {{recent.posted_by.last_name}}</p>
                         <p>{{recent.created_at|date:"DATETIME_FORMAT"}}</p>
+                        {% if user == recent.posted_by %}
+                        <form action="{% url 'users:delete_message' %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-primary">
+                        </form>
+                        {% else %}
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-primary" disabled>
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
