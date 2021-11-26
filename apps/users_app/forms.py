@@ -1,10 +1,18 @@
 from django import forms
 from django.forms import widgets
-from .models import User
+from .models import User, Message
 from django.core.exceptions import ValidationError
 from .validators import first_name_len,first_name_format,last_name_len,last_name_format,email_format,pw_len,confirm_pw_len
 import re
 import bcrypt
+
+class MessageForm(forms.ModelForm):
+
+    message = forms.CharField(max_length=255,label='Message', widget=forms.TextInput(attrs={'class':'form-control mb-3','placeholder':'Message','id':'message'}))
+
+    class Meta:
+        model = Message
+        fields = ['message']
 
 class UserFormMixin(forms.ModelForm):
     first_name = forms.CharField(max_length=255,label='First Name', widget=forms.TextInput(attrs={'class':'form-control mb-3','placeholder':'First Name','id':'first_name'}), validators=[first_name_len, first_name_format])

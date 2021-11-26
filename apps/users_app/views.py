@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, RegistrationForm
-from datetime import date
-from .user_actions import UserActions
 
+from apps.users_app.models import Message
+from .forms import LoginForm, RegistrationForm, MessageForm
+from .user_actions import UserActions
 
 # Create your views here.
 def index(request):
     if 'userid' in request.session:
-        today = date.today()
-        return render(request, 'success.html', {'date':today})
+        msg_form = MessageForm()
+        posts =Message.objects.all()
+        recents = Message.objects.all().order_by('-created_at')[:3]
+        return render(request, 'success.html', {'msg_form':msg_form, 'posts':posts, 'recents':recents})
     return render(request, 'index.html')
 
 def signin(request):
@@ -32,3 +34,10 @@ def logout(request):
     if 'userid' in request.session:
         request.session.flush()
     return redirect('users:index')
+
+def post_message(request):
+    msg_form = MessageForm(request.POST or None)
+    if msg_form.is_valid():
+        UserActions.post_message(request, msg_form)
+        return redirect('users:success')
+    return render(request, 'index.html', {'msg_form':msg_form})
