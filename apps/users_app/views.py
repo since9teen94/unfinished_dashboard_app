@@ -59,5 +59,8 @@ def comment_message(request):
         # msg_id = request.args.get('msg_id')
         # this_msg = Message.objects.get(id=msg_id)
     return redirect('users:index')
+
 def user_page(request):
-    return render(request, 'user_page.html', {'user':UserActions.get_user(request)})
+    if 'userid' in request.session:
+        return render(request, 'user_page.html', {'user':UserActions.get_user(request)})
+    return redirect('users:index')

@@ -1,17 +1,21 @@
 {% extends 'users_app/base.html' %}
 {% block title %}User Info{% endblock %}
 {% block content %}
-<h1 class="col-6 mx-auto text-center">{{user.first_name}} {{user.last_name}}</h1>
+<h2 class="col-6 mx-auto text-center my-2">{{user.first_name}} {{user.last_name}}</h2>
 <p class="col-6 mx-auto text-center">{{user.email}}</p>
 {% if user.posts %}
     <div class="row" style="position: relative">
         {% for post in user.posts.all %}
-        <div id="list-example" class="list-group col-6 mx-auto">
-        <a class="list-group-item list-group-item-action" href="#list-item-{{post.id}}">Item {{post.id}}</a>
-        </div>
-        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" tabindex="0">
-        <h4 id="list-item-{{post.id}}">{{post.title}}</h4>
-        <p class="col-6 mx-auto">{{post.message}}</p>
+        <div class="border border-primary my-2 p-2 col-4 offset-4" style="border-radius:1rem">
+            <form action="{% url 'users:edit_message' %}" style="display:flex; flex-flow:column wrap; align-items:center; justify-content:center" method='POST'>
+                {% csrf_token %}
+                <p class="lead">{{post.message}}</p>
+                <p class="font-weight-light" style="font-size:.8rem">{{post.created_at|date:'DATETIME_FORMAT'}}</p>
+                <div>
+                    <button class="mx-4 btn btn-warning" id="edit_{{post.id}}">Edit</button>
+                    <button class="mx-4 btn btn-danger" id="delete_{{post.id}}">Delete</button>
+                </div>
+            </form>
         </div>
         {% empty %}
         <p>No posts by this user.</p>
